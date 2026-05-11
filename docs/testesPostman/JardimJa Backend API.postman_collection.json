@@ -1,0 +1,1781 @@
+{
+  "info": {
+    "_postman_id": "8d617d5c-57d0-48d8-a391-a70d521c120e",
+    "name": "JardimJa Backend API",
+    "description": "Collection de testes da API JardimJa. Execute os requests em ordem para cadastrar usuarios, autenticar, criar solicitacoes e atualizar status.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30897463"
+  },
+  "item": [
+    {
+      "name": "Teste api on",
+      "item": [
+        {
+          "name": "Heatlh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna mensagem', function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('mensagem');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Verifica se a API esta em execucao."
+          },
+          "response": [
+            {
+              "name": "Heatlh",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "40"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"28-KX9bmtMk75Onf5/r3IMF/G63/cg\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:14:06 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"mensagem\": \"API JardimJa em execucao.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "/auth/registro - Cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 ou email ja cadastrado', function () {",
+                  "  pm.expect([201, 400]).to.include(pm.response.code);",
+                  "});",
+                  "if (pm.response.code === 201) {",
+                  "  pm.test('Cliente criado sem senha na resposta', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.perfil).to.eql('cliente');",
+                  "    pm.expect(json).to.not.have.property('senha');",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Cliente1\",\n  \"email\": \"cliente@gmail.com\",\n  \"senha\": \"Senha@123\",\n  \"perfil\": \"cliente\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/registro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "registro"
+              ]
+            },
+            "description": "Cria um usuario com perfil cliente."
+          },
+          "response": [
+            {
+              "name": "/auth/registro - Cliente",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nome\": \"Cliente1\",\n  \"email\": \"cliente@gmail.com\",\n  \"senha\": \"Senha@123\",\n  \"perfil\": \"cliente\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/registro",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "registro"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "111"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"6f-3XpVRnJFkQ0H3p0324lpxe1LhLs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:14:44 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"nome\": \"Cliente1\",\n    \"email\": \"cliente@gmail.com\",\n    \"perfil\": \"cliente\",\n    \"criadoEm\": \"2026-05-10T03:14:44.041Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "/auth/registro - Jardineiro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 ou email ja cadastrado', function () {",
+                  "  pm.expect([201, 400]).to.include(pm.response.code);",
+                  "});",
+                  "if (pm.response.code === 201) {",
+                  "  pm.test('Jardineiro criado sem senha na resposta', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.perfil).to.eql('jardineiro');",
+                  "    pm.expect(json).to.not.have.property('senha');",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Jardineiro1\",\n  \"email\": \"jardineiro@gmail.com\",\n  \"senha\": \"Senha@123\",\n  \"perfil\": \"jardineiro\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/registro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "registro"
+              ]
+            },
+            "description": "Cria um usuario com perfil jardineiro."
+          },
+          "response": [
+            {
+              "name": "/auth/registro - Jardineiro",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nome\": \"Jardineiro1\",\n  \"email\": \"jardineiro@gmail.com\",\n  \"senha\": \"Senha@123\",\n  \"perfil\": \"jardineiro\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/registro",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "registro"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "120"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"78-JQL/aRcKrqU84zqYk7oGpNlJHMM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:14:49 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 4,\n    \"nome\": \"Jardineiro1\",\n    \"email\": \"jardineiro@gmail.com\",\n    \"perfil\": \"jardineiro\",\n    \"criadoEm\": \"2026-05-10T03:14:49.897Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "/auth/login - Cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('Retorna token de cliente', function () {",
+                  "  pm.expect(json).to.have.property('token');",
+                  "  pm.expect(json.usuario.perfil).to.eql('cliente');",
+                  "});",
+                  "pm.collectionVariables.set('tokenCliente', json.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@gmail.com\",\n  \"senha\": \"Senha@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Autentica o cliente e salva o token em `tokenCliente`."
+          },
+          "response": [
+            {
+              "name": "/auth/login - Cliente",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"cliente@gmail.com\",\n  \"senha\": \"Senha@123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "320"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"140-83l2TSVmXNqkmMQNSCyN6VPA5ak\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:14:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibm9tZSI6IkNsaWVudGUxIiwiZW1haWwiOiJjbGllbnRlQGdtYWlsLmNvbSIsInBlcmZpbCI6ImNsaWVudGUiLCJpYXQiOjE3NzgzODI4OTQsImV4cCI6MTc3ODQ2OTI5NH0.Yxayh20v6FmuwECd0n7J-dxzKa-yEuNJIKkETprX-oI\",\n    \"usuario\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\",\n        \"perfil\": \"cliente\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/auth/login - Jardineiro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('Retorna token de jardineiro', function () {",
+                  "  pm.expect(json).to.have.property('token');",
+                  "  pm.expect(json.usuario.perfil).to.eql('jardineiro');",
+                  "});",
+                  "pm.collectionVariables.set('tokenJardineiro', json.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jardineiro@gmail.com\",\n  \"senha\": \"Senha@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Autentica o jardineiro e salva o token em `tokenJardineiro`."
+          },
+          "response": [
+            {
+              "name": "/auth/login - Jardineiro",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"jardineiro@gmail.com\",\n  \"senha\": \"Senha@123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "341"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"155-Ki8L2vno8Fi1JUgPKKS7QurouCQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:15:00 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tZSI6IkphcmRpbmVpcm8xIiwiZW1haWwiOiJqYXJkaW5laXJvQGdtYWlsLmNvbSIsInBlcmZpbCI6ImphcmRpbmVpcm8iLCJpYXQiOjE3NzgzODI5MDAsImV4cCI6MTc3ODQ2OTMwMH0.x_V-9YPoahLqK2kxw4O-h6MfbyIA0RbW4vme-lmRf3Q\",\n    \"usuario\": {\n        \"id\": 4,\n        \"nome\": \"Jardineiro1\",\n        \"email\": \"jardineiro@gmail.com\",\n        \"perfil\": \"jardineiro\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tipos de servico",
+      "item": [
+        {
+          "name": "/tipos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna array', function () {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tipos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tipos"
+              ]
+            },
+            "description": "Lista todos os tipos de servico cadastrados pelo seed."
+          },
+          "response": [
+            {
+              "name": "/tipos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/tipos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tipos"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "172"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ac-1VefFH1gtyYWf9cWKnSqmLKwQEQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:15:38 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    },\n    {\n        \"id\": 3,\n        \"nome\": \"Irrigação\"\n    },\n    {\n        \"id\": 5,\n        \"nome\": \"Manutenção geral\"\n    },\n    {\n        \"id\": 4,\n        \"nome\": \"Montagem de jardim\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Poda de plantas\"\n    }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Solicitacoes",
+      "item": [
+        {
+          "name": "/solicitacoes - Criar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('Solicitacao pendente criada', function () {",
+                  "  pm.expect(json.status).to.eql('pendente');",
+                  "  pm.expect(json).to.have.property('id');",
+                  "});",
+                  "pm.collectionVariables.set('solicitacaoId', json.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Preciso cortar a grama do quintal.\",\n  \"endereco\": \"Rua das Flores 123\",\n  \"tipoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes"
+              ]
+            },
+            "description": "Cria uma solicitacao usando o token do cliente. Salva o ID em `solicitacaoId`."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes - Criar",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"descricao\": \"Preciso cortar a grama do quintal.\",\n  \"endereco\": \"Rua das Flores 123\",\n  \"tipoId\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "357"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"165-PUan5dd0GuaRTJKk6D71q77N1vk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:16:49 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"descricao\": \"Preciso cortar a grama do quintal.\",\n    \"endereco\": \"Rua das Flores 123\",\n    \"status\": \"pendente\",\n    \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"atualizadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": null,\n    \"tipoId\": 1,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": null,\n    \"tipo\": {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes - Criar para recusar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('solicitacaoRecusaId', json.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Preciso podar algumas plantas\",\n  \"endereco\": \"Avenida logo ali 456\",\n  \"tipoId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes"
+              ]
+            },
+            "description": "Cria uma segunda solicitacao pendente para testar o fluxo de recusa. Salva o ID em `solicitacaoRecusaId`."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes - Criar para recusar",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"descricao\": \"Preciso podar algumas plantas\",\n  \"endereco\": \"Avenida logo ali 456\",\n  \"tipoId\": 2\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "355"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"163-LNw2iPmiM3FmMQc7SGllNim+gXg\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:16:53 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"descricao\": \"Preciso podar algumas plantas\",\n    \"endereco\": \"Avenida logo ali 456\",\n    \"status\": \"pendente\",\n    \"criadoEm\": \"2026-05-10T03:16:53.064Z\",\n    \"atualizadoEm\": \"2026-05-10T03:16:53.064Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": null,\n    \"tipoId\": 2,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": null,\n    \"tipo\": {\n        \"id\": 2,\n        \"nome\": \"Poda de plantas\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes - Cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna array', function () {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes"
+              ]
+            },
+            "description": "Lista as solicitacoes do cliente autenticado."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes - Cliente",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "715"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2cb-bXIX3K94aB05WLEwJjQMDhAVduY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:16:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 3,\n        \"descricao\": \"Preciso podar algumas plantas\",\n        \"endereco\": \"Avenida logo ali 456\",\n        \"status\": \"pendente\",\n        \"criadoEm\": \"2026-05-10T03:16:53.064Z\",\n        \"atualizadoEm\": \"2026-05-10T03:16:53.064Z\",\n        \"clienteId\": 3,\n        \"jardineiroId\": null,\n        \"tipoId\": 2,\n        \"cliente\": {\n            \"id\": 3,\n            \"nome\": \"Cliente1\",\n            \"email\": \"cliente@gmail.com\"\n        },\n        \"jardineiro\": null,\n        \"tipo\": {\n            \"id\": 2,\n            \"nome\": \"Poda de plantas\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"descricao\": \"Preciso cortar a grama do quintal.\",\n        \"endereco\": \"Rua das Flores 123\",\n        \"status\": \"pendente\",\n        \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n        \"atualizadoEm\": \"2026-05-10T03:16:49.851Z\",\n        \"clienteId\": 3,\n        \"jardineiroId\": null,\n        \"tipoId\": 1,\n        \"cliente\": {\n            \"id\": 3,\n            \"nome\": \"Cliente1\",\n            \"email\": \"cliente@gmail.com\"\n        },\n        \"jardineiro\": null,\n        \"tipo\": {\n            \"id\": 1,\n            \"nome\": \"Corte de grama\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes - Jardineiro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna array', function () {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenJardineiro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes"
+              ]
+            },
+            "description": "Lista solicitacoes pendentes ou atribuidas ao jardineiro autenticado."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes - Jardineiro",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "715"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2cb-bXIX3K94aB05WLEwJjQMDhAVduY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:16:58 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 3,\n        \"descricao\": \"Preciso podar algumas plantas\",\n        \"endereco\": \"Avenida logo ali 456\",\n        \"status\": \"pendente\",\n        \"criadoEm\": \"2026-05-10T03:16:53.064Z\",\n        \"atualizadoEm\": \"2026-05-10T03:16:53.064Z\",\n        \"clienteId\": 3,\n        \"jardineiroId\": null,\n        \"tipoId\": 2,\n        \"cliente\": {\n            \"id\": 3,\n            \"nome\": \"Cliente1\",\n            \"email\": \"cliente@gmail.com\"\n        },\n        \"jardineiro\": null,\n        \"tipo\": {\n            \"id\": 2,\n            \"nome\": \"Poda de plantas\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"descricao\": \"Preciso cortar a grama do quintal.\",\n        \"endereco\": \"Rua das Flores 123\",\n        \"status\": \"pendente\",\n        \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n        \"atualizadoEm\": \"2026-05-10T03:16:49.851Z\",\n        \"clienteId\": 3,\n        \"jardineiroId\": null,\n        \"tipoId\": 1,\n        \"cliente\": {\n            \"id\": 3,\n            \"nome\": \"Cliente1\",\n            \"email\": \"cliente@gmail.com\"\n        },\n        \"jardineiro\": null,\n        \"tipo\": {\n            \"id\": 1,\n            \"nome\": \"Corte de grama\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes/:id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna ID esperado', function () {",
+                  "  pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('solicitacaoId')));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "2"
+              ]
+            },
+            "description": "Detalha uma solicitacao especifica."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes/:id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes/2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "357"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"165-PUan5dd0GuaRTJKk6D71q77N1vk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:17:24 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"descricao\": \"Preciso cortar a grama do quintal.\",\n    \"endereco\": \"Rua das Flores 123\",\n    \"status\": \"pendente\",\n    \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"atualizadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": null,\n    \"tipoId\": 1,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": null,\n    \"tipo\": {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes/:id/status - Aceitar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Status aceito', function () {",
+                  "  pm.expect(pm.response.json().status).to.eql('aceito');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenJardineiro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"aceito\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/2/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "2",
+                "status"
+              ]
+            },
+            "description": "Aceita uma solicitacao pendente usando o token do jardineiro."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes/:id/status - Aceitar",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"aceito\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes/2/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes",
+                    "2",
+                    "status"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "408"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"198-0CZWQwtJ6ZlplrCZE1JruPVFKvE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:17:35 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"descricao\": \"Preciso cortar a grama do quintal.\",\n    \"endereco\": \"Rua das Flores 123\",\n    \"status\": \"aceito\",\n    \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"atualizadoEm\": \"2026-05-10T03:17:35.025Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": 4,\n    \"tipoId\": 1,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": {\n        \"id\": 4,\n        \"nome\": \"Jardineiro1\",\n        \"email\": \"jardineiro@gmail.com\"\n    },\n    \"tipo\": {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes/:id/status - Em andamento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Status em_andamento', function () {",
+                  "  pm.expect(pm.response.json().status).to.eql('em_andamento');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenJardineiro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"em_andamento\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/2/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "2",
+                "status"
+              ]
+            },
+            "description": "Atualiza uma solicitacao aceita para em andamento."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes/:id/status - Em andamento",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"em_andamento\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes/2/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes",
+                    "2",
+                    "status"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "414"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"19e-JdlavEsIwm8hi/w4NnsBz12pZLw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:17:43 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"descricao\": \"Preciso cortar a grama do quintal.\",\n    \"endereco\": \"Rua das Flores 123\",\n    \"status\": \"em_andamento\",\n    \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"atualizadoEm\": \"2026-05-10T03:17:43.881Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": 4,\n    \"tipoId\": 1,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": {\n        \"id\": 4,\n        \"nome\": \"Jardineiro1\",\n        \"email\": \"jardineiro@gmail.com\"\n    },\n    \"tipo\": {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes/:id/status - Concluir",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Status concluido', function () {",
+                  "  pm.expect(pm.response.json().status).to.eql('concluido');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenJardineiro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"concluido\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/2/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "2",
+                "status"
+              ]
+            },
+            "description": "Conclui uma solicitacao em andamento."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes/:id/status - Concluir",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"concluido\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes/2/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes",
+                    "2",
+                    "status"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "411"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"19b-Q6qqkTZCOmhkcSvwUdXF4A8m/Zo\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:17:52 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"descricao\": \"Preciso cortar a grama do quintal.\",\n    \"endereco\": \"Rua das Flores 123\",\n    \"status\": \"concluido\",\n    \"criadoEm\": \"2026-05-10T03:16:49.851Z\",\n    \"atualizadoEm\": \"2026-05-10T03:17:52.919Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": 4,\n    \"tipoId\": 1,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": {\n        \"id\": 4,\n        \"nome\": \"Jardineiro1\",\n        \"email\": \"jardineiro@gmail.com\"\n    },\n    \"tipo\": {\n        \"id\": 1,\n        \"nome\": \"Corte de grama\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/solicitacoes/:id/status - Recusar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Status recusado', function () {",
+                  "  pm.expect(pm.response.json().status).to.eql('recusado');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenJardineiro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"recusado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/3/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "3",
+                "status"
+              ]
+            },
+            "description": "Recusa uma solicitacao que ainda esta pendente."
+          },
+          "response": [
+            {
+              "name": "/solicitacoes/:id/status - Recusar",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"recusado\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/solicitacoes/3/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "solicitacoes",
+                    "3",
+                    "status"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "355"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"163-Q6brhm5tTI1EA7aQxUKBHOl9iEk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 10 May 2026 03:18:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"descricao\": \"Preciso podar algumas plantas\",\n    \"endereco\": \"Avenida logo ali 456\",\n    \"status\": \"recusado\",\n    \"criadoEm\": \"2026-05-10T03:16:53.064Z\",\n    \"atualizadoEm\": \"2026-05-10T03:18:13.432Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": null,\n    \"tipoId\": 2,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": null,\n    \"tipo\": {\n        \"id\": 2,\n        \"nome\": \"Poda de plantas\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "if (!pm.collectionVariables.get('runId')) {",
+          "  const runId = Date.now();",
+          "  pm.collectionVariables.set('runId', runId);",
+          "  pm.collectionVariables.set('clienteEmail', `ana.${runId}@jardimja.com`);",
+          "  pm.collectionVariables.set('jardineiroEmail', `joao.${runId}@jardimja.com`);",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "senhaPadrao",
+      "value": "123456"
+    },
+    {
+      "key": "tokenCliente",
+      "value": ""
+    },
+    {
+      "key": "tokenJardineiro",
+      "value": ""
+    },
+    {
+      "key": "runId",
+      "value": ""
+    },
+    {
+      "key": "clienteEmail",
+      "value": ""
+    },
+    {
+      "key": "jardineiroEmail",
+      "value": ""
+    },
+    {
+      "key": "solicitacaoId",
+      "value": ""
+    },
+    {
+      "key": "solicitacaoRecusaId",
+      "value": ""
+    }
+  ]
+}
