@@ -50,6 +50,14 @@ Crie o arquivo `.env` com base no exemplo:
 cp .env.example .env
 ```
 
+Antes de iniciar a aplicacao, prepare o banco de dados SQLite usado pelo Prisma:
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed
+```
+
 Depois inicie a aplicacao:
 
 ```bash
@@ -62,7 +70,7 @@ Por padrao, a API fica disponivel em:
 http://localhost:3000
 ```
 
-No primeiro `npm start`, se o banco ainda nao existir, o projeto gera o Prisma Client, executa as migrations e roda o seed automaticamente.
+O banco local fica em `jardimja-backend/prisma/database.sqlite`, conforme a variavel `DATABASE_URL`. Sempre que baixar o projeto em uma maquina nova ou apagar o arquivo do banco, rode os comandos do Prisma antes de executar `npm start`.
 
 ## Variaveis de ambiente
 
@@ -101,12 +109,13 @@ docs/testesPostman/JardimJa Backend API.postman_collection.json
 
 Para executar:
 
-1. Inicie a API com `npm start` dentro de `jardimja-backend`.
-2. Abra o Postman.
-3. Clique em `Import`.
-4. Selecione o arquivo `docs/testesPostman/JardimJa Backend API.postman_collection.json`.
-5. Confirme se a variavel `baseUrl` da collection esta como `http://localhost:3000`.
-6. Execute as requisicoes na ordem da collection ou use `Run collection`.
+1. Prepare o banco com `npx prisma generate`, `npx prisma migrate dev` e `npx prisma db seed` dentro de `jardimja-backend`.
+2. Inicie a API com `npm start` dentro de `jardimja-backend`.
+3. Abra o Postman.
+4. Clique em `Import`.
+5. Selecione o arquivo `docs/testesPostman/JardimJa Backend API.postman_collection.json`.
+6. Confirme se a variavel `baseUrl` da collection esta como `http://localhost:3000`.
+7. Execute as requisicoes na ordem da collection ou use `Run collection`.
 
 A collection ja possui scripts para salvar automaticamente variaveis como `tokenCliente`, `tokenJardineiro`, `solicitacaoId` e `solicitacaoRecusaId`. Por isso, o fluxo recomendado e executar primeiro o health check, depois os registros, logins, listagem de tipos, criacao de solicitacoes e por fim as atualizacoes de status.
 
