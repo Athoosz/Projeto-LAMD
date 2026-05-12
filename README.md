@@ -20,6 +20,14 @@ O backend segue uma organizacao em camadas inspirada no MVC, com responsabilidad
 
 Os modelos de dados ficam em `jardimja-backend/prisma/schema.prisma`. Por isso o projeto nao possui uma pasta `models` separada: o Prisma gera o client a partir desse schema.
 
+## Schema visual do banco de dados
+
+O diagrama ER do banco esta em:
+
+```text
+docs/schema-banco.md
+```
+
 ## Estrutura de pastas
 
 ```text
