@@ -6,6 +6,7 @@ const { prepararBancoSeNecessario } = require('./config/database');
 const authRoutes = require('./routes/auth');
 const tiposRoutes = require('./routes/tipos');
 const solicitacoesRoutes = require('./routes/solicitacoes');
+const { iniciarConsumidores } = require('./events/consumer');
 
 prepararBancoSeNecessario();
 
@@ -27,8 +28,9 @@ app.use((req, res) => {
   res.status(404).json({ erro: 'Rota nao encontrada.' });
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Servidor JardimJa rodando em http://localhost:${port}`);
+  await iniciarConsumidores();
 });
 
 module.exports = app;

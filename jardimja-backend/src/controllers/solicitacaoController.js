@@ -26,7 +26,12 @@ async function criar(req, res) {
       clienteId: req.usuario.id
     });
 
-    publicarEvento('nova_solicitacao', solicitacao);
+    await publicarEvento('nova_solicitacao', {
+      solicitacaoId: solicitacao.id,
+      tipo: solicitacao.tipo.nome,
+      clienteNome: solicitacao.cliente.nome,
+      endereco: solicitacao.endereco
+    });
 
     return res.status(201).json(solicitacao);
   } catch (erro) {
@@ -133,11 +138,16 @@ async function atualizarStatus(req, res) {
     const solicitacaoAtualizada = await SolicitacaoService.atualizarSolicitacao(id, dadosAtualizacao);
 
     if (status === 'aceito') {
-      publicarEvento('solicitacao_aceita', solicitacaoAtualizada);
+      await publicarEvento('solicitacao_aceita', {
+        solicitacaoId: solicitacaoAtualizada.id,
+        jardineiroNome: solicitacaoAtualizada.jardineiro.nome
+      });
     }
 
     if (status === 'concluido') {
-      publicarEvento('servico_concluido', solicitacaoAtualizada);
+      await publicarEvento('servico_concluido', {
+        solicitacaoId: solicitacaoAtualizada.id
+      });
     }
 
     return res.json(solicitacaoAtualizada);
