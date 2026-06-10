@@ -1,0 +1,14 @@
+node_modules/
+.idea/
+.vscode/
+*.log
+.env
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/jardimja-cliente/build/
+/jardimja-cliente/.dart_tool/

@@ -141,3 +141,15 @@ npx prisma migrate reset
 # Ver migrations aplicadas
 npx prisma migrate status
 ```
+
+## Como executar o Cliente Flutter
+
+O aplicativo para clientes foi desenvolvido em Flutter e está na pasta `jardimja-cliente`. Para rodar, certifique-se de ter o emulador Android ou iOS configurado.
+
+Execute os seguintes comandos a partir da raiz do repositório:
+
+```bash
+cd jardimja-cliente
+flutter pub get
+flutter run
+```
