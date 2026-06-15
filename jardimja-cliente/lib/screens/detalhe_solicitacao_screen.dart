@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/solicitacao.dart';
 import '../services/solicitacao_service.dart';
 import '../widgets/status_badge.dart';
+import 'editar_solicitacao_screen.dart';
 
 class DetalheSolicitacaoScreen extends StatefulWidget {
   final int id;
@@ -55,6 +56,56 @@ class _DetalheSolicitacaoScreenState extends State<DetalheSolicitacaoScreen> {
           );
         }
       }
+    }
+  }
+
+  Future<void> _excluir() async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir pedido'),
+        content: const Text('Tem certeza que deseja excluir este pedido?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Excluir', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmar == true) {
+      setState(() => _isLoading = true);
+      try {
+        await _solicitacaoService.excluir(widget.id);
+        if (!mounted) return;
+        Navigator.pop(context);
+      } catch (e) {
+        if (mounted) {
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao excluir: $e')),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _editar() async {
+    final atualizou = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditarSolicitacaoScreen(solicitacao: _solicitacao!),
+      ),
+    );
+
+    if (atualizou == true) {
+      setState(() => _isLoading = true);
+      _carregarDetalhes();
     }
   }
 
@@ -188,6 +239,34 @@ class _DetalheSolicitacaoScreenState extends State<DetalheSolicitacaoScreen> {
                         ),
                       ),
                       const SizedBox(height: 40),
+                      if (_solicitacao!.status.toLowerCase() == 'pendente')
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: _excluir,
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                label: const Text('Excluir', style: TextStyle(color: Colors.red)),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(color: Colors.red),
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: _editar,
+                                icon: const Icon(Icons.edit, color: Colors.white),
+                                label: const Text('Editar', style: TextStyle(color: Colors.white)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF2D6A2D),
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

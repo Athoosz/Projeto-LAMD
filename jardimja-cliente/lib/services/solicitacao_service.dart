@@ -65,6 +65,37 @@ class SolicitacaoService {
     }
   }
 
+  Future<void> editar(int id, int tipoId, String descricao, String endereco) async {
+    final headers = await _getHeaders();
+    final response = await http.put(
+      Uri.parse('$baseUrl/solicitacoes/$id'),
+      headers: headers,
+      body: jsonEncode({
+        'tipoId': tipoId,
+        'descricao': descricao,
+        'endereco': endereco,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 401) throw Exception('401');
+      throw Exception('Falha ao editar solicitação');
+    }
+  }
+
+  Future<void> excluir(int id) async {
+    final headers = await _getHeaders();
+    final response = await http.delete(
+      Uri.parse('$baseUrl/solicitacoes/$id'),
+      headers: headers,
+    );
+
+    if (response.statusCode != 204 && response.statusCode != 200) {
+      if (response.statusCode == 401) throw Exception('401');
+      throw Exception('Falha ao excluir solicitação');
+    }
+  }
+
   Future<List<dynamic>> listarTipos() async {
     final headers = await _getHeaders();
     final response = await http.get(

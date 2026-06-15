@@ -48,9 +48,16 @@ function atualizarSolicitacao(id, data) {
   });
 }
 
+function excluirSolicitacao(id) {
+  return prisma.solicitacao.delete({
+    where: { id }
+  });
+}
+
 module.exports = {
   criarSolicitacao,
   listarSolicitacoes,
   buscarPorId,
-  atualizarSolicitacao
+  atualizarSolicitacao,
+  excluirSolicitacao
 };

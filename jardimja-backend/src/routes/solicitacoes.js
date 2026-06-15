@@ -10,5 +10,7 @@ router.post('/', exigirPerfil('cliente'), SolicitacaoController.criar);
 router.get('/', SolicitacaoController.listar);
 router.get('/:id', SolicitacaoController.detalhar);
 router.patch('/:id/status', exigirPerfil('jardineiro'), SolicitacaoController.atualizarStatus);
+router.put('/:id', exigirPerfil('cliente'), SolicitacaoController.editar);
+router.delete('/:id', exigirPerfil('cliente'), SolicitacaoController.excluir);
 
 module.exports = router;

@@ -156,9 +156,57 @@ async function atualizarStatus(req, res) {
   }
 }
 
+async function editar(req, res) {
+  const id = Number(req.params.id);
+  const { descricao, endereco, tipoId } = req.body;
+  const tipoIdNumero = Number(tipoId);
+
+  if (!id) return res.status(400).json({ erro: 'ID invalido.' });
+  if (!endereco || !tipoIdNumero) return res.status(400).json({ erro: 'Endereco e tipoId sao obrigatorios.' });
+
+  try {
+    const solicitacao = await SolicitacaoService.buscarPorId(id);
+    if (!solicitacao) return res.status(404).json({ erro: 'Solicitacao nao encontrada.' });
+    if (solicitacao.clienteId !== req.usuario.id) return res.status(403).json({ erro: 'Sem permissao.' });
+    if (solicitacao.status !== 'pendente') return res.status(400).json({ erro: 'Apenas solicitacoes pendentes podem ser editadas.' });
+
+    const tipo = await TipoServicoService.buscarPorId(tipoIdNumero);
+    if (!tipo) return res.status(404).json({ erro: 'Tipo de servico nao encontrado.' });
+
+    const atualizada = await SolicitacaoService.atualizarSolicitacao(id, {
+      descricao,
+      endereco,
+      tipoId: tipoIdNumero
+    });
+
+    return res.json(atualizada);
+  } catch (erro) {
+    return res.status(500).json({ erro: 'Erro ao editar solicitacao.' });
+  }
+}
+
+async function excluir(req, res) {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ erro: 'ID invalido.' });
+
+  try {
+    const solicitacao = await SolicitacaoService.buscarPorId(id);
+    if (!solicitacao) return res.status(404).json({ erro: 'Solicitacao nao encontrada.' });
+    if (solicitacao.clienteId !== req.usuario.id) return res.status(403).json({ erro: 'Sem permissao.' });
+    if (solicitacao.status !== 'pendente') return res.status(400).json({ erro: 'Apenas solicitacoes pendentes podem ser excluidas.' });
+
+    await SolicitacaoService.excluirSolicitacao(id);
+    return res.status(204).send();
+  } catch (erro) {
+    return res.status(500).json({ erro: 'Erro ao excluir solicitacao.' });
+  }
+}
+
 module.exports = {
   criar,
   listar,
   detalhar,
-  atualizarStatus
+  atualizarStatus,
+  editar,
+  excluir
 };

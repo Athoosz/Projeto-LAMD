@@ -3,12 +3,14 @@ class Solicitacao {
   final String tipo;
   final String descricao;
   final String endereco;
+  final int tipoId;
   final String status;
   final String criadoEm;
 
   Solicitacao({
     required this.id,
     required this.tipo,
+    required this.tipoId,
     required this.descricao,
     required this.endereco,
     required this.status,
@@ -18,6 +20,7 @@ class Solicitacao {
   factory Solicitacao.fromJson(Map<String, dynamic> json) => Solicitacao(
     id: json['id'],
     tipo: json['tipo']['nome'],
+    tipoId: json['tipoId'],
     descricao: json['descricao'] ?? '',
     endereco: json['endereco'],
     status: json['status'],

@@ -1708,6 +1708,103 @@
               "body": "{\n    \"id\": 3,\n    \"descricao\": \"Preciso podar algumas plantas\",\n    \"endereco\": \"Avenida logo ali 456\",\n    \"status\": \"recusado\",\n    \"criadoEm\": \"2026-05-10T03:16:53.064Z\",\n    \"atualizadoEm\": \"2026-05-10T03:18:13.432Z\",\n    \"clienteId\": 3,\n    \"jardineiroId\": null,\n    \"tipoId\": 2,\n    \"cliente\": {\n        \"id\": 3,\n        \"nome\": \"Cliente1\",\n        \"email\": \"cliente@gmail.com\"\n    },\n    \"jardineiro\": null,\n    \"tipo\": {\n        \"id\": 2,\n        \"nome\": \"Poda de plantas\"\n    }\n}"
             }
           ]
+        },
+        {
+          "name": "/solicitacoes/:id - Editar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Preciso cortar a grama e podar as arvores.\",\n  \"endereco\": \"Rua das Flores 123 - Atualizado\",\n  \"tipoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/{{solicitacaoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "{{solicitacaoId}}"
+              ]
+            },
+            "description": "Edita uma solicitacao pendente do cliente autenticado."
+          },
+          "response": []
+        },
+        {
+          "name": "/solicitacoes/:id - Excluir",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 204', function () {",
+                  "  pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenCliente}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/solicitacoes/{{solicitacaoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "solicitacoes",
+                "{{solicitacaoId}}"
+              ]
+            },
+            "description": "Exclui uma solicitacao pendente do cliente autenticado."
+          },
+          "response": []
         }
       ]
     }
