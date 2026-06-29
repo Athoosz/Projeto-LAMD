@@ -2,7 +2,10 @@
 
 ## Sobre o projeto
 
-O JardimJa e uma API backend para uma plataforma de servicos de jardinagem sob demanda. O sistema permite cadastrar clientes e jardineiros, autenticar usuarios, listar tipos de servico e gerenciar solicitacoes de atendimento, desde a criacao pelo cliente ate a atualizacao de status pelo jardineiro.
+O JardimJa é uma plataforma completa para serviços de jardinagem sob demanda, dividida em três componentes principais:
+1. **Backend (`jardimja-backend`)**: API Node.js que fornece os dados, gerencia autenticação e solicitações.
+2. **App do Cliente (`jardimja-cliente`)**: Aplicativo móvel para clientes buscarem serviços e solicitarem orçamentos.
+3. **App do Prestador (`jardimja-prestador`)**: Aplicativo móvel para os jardineiros gerenciarem suas solicitações e alertas.
 
 ## Arquitetura do sistema
 
@@ -34,14 +37,17 @@ docs/schema-banco.md
 Projeto-LAMD/
 |-- docs/
 |-- jardimja-backend/
+|-- jardimja-cliente/
+|-- jardimja-prestador/
 `-- README.md
 ```
 
-- `docs/`: documentos do projeto, imagens e collection do Postman.
+- `docs/`: documentos do projeto, relatórios, imagens e collection do Postman.
 - `jardimja-backend/`: codigo da API Node.js/Express.
-- `jardimja-backend/src/`: rotas, controllers, services, middlewares, eventos e configuracoes.
-- `jardimja-backend/prisma/`: schema do banco, migrations e seed inicial.
-
+  - `jardimja-backend/src/`: rotas, controllers, services, middlewares, eventos e configuracoes.
+  - `jardimja-backend/prisma/`: schema do banco, migrations e seed inicial.
+- `jardimja-cliente/`: Código-fonte do App Flutter para o Cliente.
+- `jardimja-prestador/`: Código-fonte do App Flutter para o Prestador (Jardineiro).
 
 ## Como executar o backend
 
@@ -142,7 +148,7 @@ npx prisma migrate reset
 npx prisma migrate status
 ```
 
-## Como executar o Cliente Flutter
+## Como executar o Cliente Flutter (`jardimja-cliente`)
 
 O aplicativo para clientes foi desenvolvido em Flutter e está na pasta `jardimja-cliente`. Para rodar, certifique-se de ter o emulador Android ou iOS configurado.
 
@@ -150,6 +156,18 @@ Execute os seguintes comandos a partir da raiz do repositório:
 
 ```bash
 cd jardimja-cliente
+flutter pub get
+flutter run
+```
+
+## Como executar o App do Prestador (`jardimja-prestador`)
+
+O aplicativo para prestadores/jardineiros foi desenvolvido em Flutter e está na pasta `jardimja-prestador`. Para rodar, certifique-se de ter o emulador Android ou iOS configurado.
+
+Execute os seguintes comandos a partir da raiz do repositório:
+
+```bash
+cd jardimja-prestador
 flutter pub get
 flutter run
 ```
