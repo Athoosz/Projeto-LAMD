@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   
   List<Solicitacao> _pendentes = [];
   List<Solicitacao> _emAndamento = [];
+  List<Solicitacao> _concluidos = [];
   bool _isLoading = true;
   Timer? _pollingTimer;
   late TabController _tabController;
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _carregarDados();
     
     _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) {
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       setState(() {
         _pendentes = solicitacoes.where((s) => s.status == 'pendente').toList();
         _emAndamento = solicitacoes.where((s) => s.status == 'aceito' || s.status == 'em_andamento').toList();
+        _concluidos = solicitacoes.where((s) => s.status == 'concluido').toList();
       });
     } catch (e) {
       print('Erro ao carregar solicitações: $e');
@@ -97,7 +99,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   Text(
                     'Status: ${s.status.toUpperCase()}',
                     style: TextStyle(
-                      color: s.status == 'pendente' ? Colors.orange : Colors.green,
+                      color: s.status == 'pendente' 
+                          ? Colors.orange 
+                          : s.status == 'concluido' 
+                              ? Colors.blueAccent 
+                              : Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -140,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           tabs: const [
             Tab(text: 'Pendentes'),
             Tab(text: 'Meus Serviços'),
+            Tab(text: 'Concluídos'),
           ],
         ),
       ),
@@ -150,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               children: [
                 _buildLista(_pendentes),
                 _buildLista(_emAndamento),
+                _buildLista(_concluidos),
               ],
             ),
     );
